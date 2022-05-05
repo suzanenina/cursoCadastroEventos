@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CadastroEventos.Domain;
+using CadastroEventos.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,17 +13,18 @@ namespace CadastroEventos.Api.Controllers
     [Route("api/[controller]")]
     public class EventoController : ControllerBase
     {
+        private readonly EventoContext _context;
        
-        public EventoController()
+        public EventoController(EventoContext context)
         {
-
+            _context = context;
         }
 
         [HttpGet]
         [Route("consultar")]
-        public string GetEventos()
+        public IEnumerable<Evento> Get()
         {
-            return "teste api evento";
+            return _context.Eventos;
         }
     }
 }

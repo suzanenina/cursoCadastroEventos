@@ -1,1 +1,4 @@
 dotnet new api -n "CadastroEventos.Api"
+
+executar migration referenciando o projeto onde está a Startup.cs 
+dotnet ef migrations add Initial -p .\CadastroEventos.Persistence\CadastroEventos.Persistence.csproj -s .\CadastroEventos.Api\CadastroEventos.Api.csproj
