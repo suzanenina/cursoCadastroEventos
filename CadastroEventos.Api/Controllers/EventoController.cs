@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CadastroEventos.Domain;
 using CadastroEventos.Persistence;
+using CadastroEventos.Persistence.Contextos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

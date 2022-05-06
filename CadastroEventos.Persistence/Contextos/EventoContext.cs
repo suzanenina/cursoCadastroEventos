@@ -2,7 +2,7 @@
 using CadastroEventos.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace CadastroEventos.Persistence
+namespace CadastroEventos.Persistence.Contextos
 {
 
     public class EventoContext : DbContext
