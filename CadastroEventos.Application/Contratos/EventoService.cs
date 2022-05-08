@@ -105,7 +105,6 @@ namespace CadastroEventos.Application.Contratos
             }
             catch (System.Exception ex)
             {
-                
                 throw new Exception(ex.Message);
             }
         }

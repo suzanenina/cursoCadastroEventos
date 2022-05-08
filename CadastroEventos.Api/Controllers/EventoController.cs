@@ -23,7 +23,7 @@ namespace CadastroEventos.Api.Controllers
             try
             {
                  var eventos = await _eventoService.GetAllEventosAsync(false);
-                 if(eventos == null) return NotFound("Nenhum evento encontrado.");
+                 if(eventos == null) return NoContent();
 
                  return Ok(eventos);
             }
@@ -41,7 +41,7 @@ namespace CadastroEventos.Api.Controllers
             try
             {
                  var evento = await _eventoService.GetEventoByIdAsync(id);
-                 if(evento == null) return NotFound("Evento por Id não encontrado.");
+                 if(evento == null) return NoContent();
 
                  return Ok(evento);
             }
@@ -59,7 +59,7 @@ namespace CadastroEventos.Api.Controllers
             try
             {
                  var eventos = await _eventoService.GetAllEventosByTemaAsync(tema);
-                 if(eventos == null) return NotFound("Eventos por tema não encontrados.");
+                 if(eventos == null) return NoContent();
 
                  return Ok(eventos);
             }
@@ -77,7 +77,7 @@ namespace CadastroEventos.Api.Controllers
             try
             {
                  var evento = await _eventoService.AddEvento(model);
-                 if(evento == null) return BadRequest("Erro ao tentar adicionar evento.");
+                 if(evento == null) return NoContent();
 
                  return Ok(evento);
             }
@@ -95,7 +95,7 @@ namespace CadastroEventos.Api.Controllers
             try
             {
                  var evento = await _eventoService.UpdateEvento(id, model);
-                 if(evento == null) return BadRequest("Erro ao tentar atualizar evento.");
+                 if(evento == null) return NoContent();
 
                  return Ok(evento);
             }
@@ -111,12 +111,11 @@ namespace CadastroEventos.Api.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             try
-            {
-                
+            {                
                  if(!await _eventoService.DeleteEvento(id)) 
-                    return BadRequest("Erro ao excluir evento.");
-                
-                
+                    throw new System.Exception
+                    ("Ocorreu um problema não específico ao tentar deletar Evento");
+                               
                 return Ok("Evento excluído com sucesso!");
             }
             catch (System.Exception ex)

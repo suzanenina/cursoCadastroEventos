@@ -3,6 +3,9 @@
 - ajustes das camadas aplication, domain e api
 - Inclusão Automapper
 
+----------------------------------
+- inclusão de data annotation no eventoDto.cs
+
 
 
                  
