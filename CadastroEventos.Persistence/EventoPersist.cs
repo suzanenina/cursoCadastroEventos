@@ -37,7 +37,7 @@ namespace CadastroEventos.Persistence
 
         public async Task<Evento> GetEventoByIdAsync(int EventoId, bool includePalestrantes = false)
         {
-            IQueryable<Evento> query = _context.Eventos
+            IQueryable<Evento> query = _context.Eventos.AsNoTracking()
             .Include(e => e.Lotes)
             .Include(e => e.RedeSociais);
 

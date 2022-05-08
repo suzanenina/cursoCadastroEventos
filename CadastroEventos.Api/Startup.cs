@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CadastroEventos.Application.Contratos;
 using CadastroEventos.Persistence;
 using CadastroEventos.Persistence.Contextos;
+using CadastroEventos.Persistence.Contrato;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,14 +32,22 @@ namespace CadastroEventos.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CadastroEventos.Api", Version = "v1" });
             });
 
-            services.AddDbContext<EventoContext>(options => 
+            services.AddDbContext<EventoContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Default")));
+
+            services.AddScoped<IEventoService, EventoService>();
+            services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IEventoPersist, EventoPersist>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

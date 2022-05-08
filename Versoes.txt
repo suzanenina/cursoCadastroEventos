@@ -1,0 +1,8 @@
+- Resolvido erro tracked
+- Resolvido erro object cycle
+- ajustes das camadas aplication, domain e api
+- Inclusão Automapper
+
+
+
+                 

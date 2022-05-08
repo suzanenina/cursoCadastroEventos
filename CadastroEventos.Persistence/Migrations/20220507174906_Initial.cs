@@ -17,7 +17,6 @@ namespace CadastroEventos.Persistence.Migrations
                     DataEvento = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Tema = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QtdePessoas = table.Column<int>(type: "int", nullable: false),
-                    Lote = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagemUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true)

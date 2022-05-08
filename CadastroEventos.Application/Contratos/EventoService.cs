@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
+using CadastroEventos.Application.Dtos;
 using CadastroEventos.Domain;
 using CadastroEventos.Persistence.Contrato;
 
@@ -10,15 +12,28 @@ namespace CadastroEventos.Application.Contratos
         private readonly IGeralPersist _geralPersist;
         private readonly IEventoPersist _eventoPersist;
 
-        public async Task<Evento> AddEvento(Evento model)
+        private readonly IMapper _mapper;
+
+        public EventoService(IGeralPersist geralPersist, IEventoPersist eventoPersist, IMapper mappper)
+        {
+            _eventoPersist = eventoPersist;
+            _geralPersist = geralPersist;
+            _mapper = mappper;
+        }
+
+        public async Task<EventoDto> AddEvento(EventoDto model)
         {
             try
             {
-                _geralPersist.Add<Evento>(model);
+                var evento = _mapper.Map<Evento>(model);
+
+                _geralPersist.Add<Evento>(evento);
 
                 if (await _geralPersist.SaveChangesAsync())
                 {
-                    return await _eventoPersist.GetEventoByIdAsync(model.EventoId, false);
+                    var retorno = await _eventoPersist.GetEventoByIdAsync(evento.EventoId, false);
+                    return _mapper.Map<EventoDto>(retorno);
+
                 }
                 return null;
             }
@@ -29,7 +44,7 @@ namespace CadastroEventos.Application.Contratos
             }
         }
 
-        public async Task<Evento> UpdateEvento(int eventoId, Evento model)
+        public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto model)
         {
             try
             {
@@ -37,11 +52,14 @@ namespace CadastroEventos.Application.Contratos
 
                 if(evento == null) return null;
 
-                _geralPersist.Update(model);
+                _mapper.Map(model, evento);
+
+                _geralPersist.Update<Evento>(evento);
                 
                 if(await _geralPersist.SaveChangesAsync())
                 {
-                    return await _eventoPersist.GetEventoByIdAsync(eventoId, false);
+                    var retornoEvento = await _eventoPersist.GetEventoByIdAsync(eventoId, false);
+                    return _mapper.Map<EventoDto>(retornoEvento);
                 }
 
                 return null;
@@ -73,7 +91,7 @@ namespace CadastroEventos.Application.Contratos
             }
         }
 
-        public async Task<Evento[]> GetAllEventosAsync(bool includePalestrantes = false)
+        public async Task<EventoDto[]> GetAllEventosAsync(bool includePalestrantes = false)
         {
             try
             {
@@ -81,7 +99,9 @@ namespace CadastroEventos.Application.Contratos
 
                 if(eventos == null) return null;
 
-                return eventos;
+                var resultado = _mapper.Map<EventoDto[]>(eventos);
+
+                return resultado;
             }
             catch (System.Exception ex)
             {
@@ -90,15 +110,17 @@ namespace CadastroEventos.Application.Contratos
             }
         }
 
-        public async Task<Evento> GetAllEventosByIdAsync(int EventoId, bool includePalestrantes = false)
+        public async Task<EventoDto> GetEventoByIdAsync(int EventoId, bool includePalestrantes = false)
         {
              try
             {
-                var eventos = await _eventoPersist.GetEventoByIdAsync(EventoId, includePalestrantes);
+                var evento = await _eventoPersist.GetEventoByIdAsync(EventoId, includePalestrantes);
 
-                if(eventos == null) return null;
+                if(evento == null) return null;
 
-                return eventos;
+                var resultado = _mapper.Map<EventoDto>(evento);
+
+                return resultado;
             }
             catch (System.Exception ex)
             {
@@ -106,7 +128,7 @@ namespace CadastroEventos.Application.Contratos
             }
         }
 
-        public async Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes = false)
+        public async Task<EventoDto[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes = false)
         {
              try
             {
@@ -114,7 +136,9 @@ namespace CadastroEventos.Application.Contratos
 
                 if(eventos == null) return null;
 
-                return eventos;
+                 var resultado = _mapper.Map<EventoDto[]>(eventos);
+
+                return resultado;
             }
             catch (System.Exception ex)
             {
@@ -122,7 +146,6 @@ namespace CadastroEventos.Application.Contratos
                 throw new Exception(ex.Message);
             }
         }
-
 
     }
 }
