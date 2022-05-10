@@ -8,6 +8,6 @@ namespace CadastroEventos.Persistence.Contrato
     {
         Task<Palestrante[]> GetAllPalestrantesByNomeAsync(string tema, bool includeEventos);
         Task<Palestrante[]> GetAllPalestrantesAsync(bool includeEventos);
-        Task<Palestrante> GetAllPalestrantesByIdAsync(int PalestranteId, bool includeEventos);
+        Task<Palestrante> GetPalestranteByIdAsync(int PalestranteId, bool includeEventos);
     }
 }

@@ -1,20 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CadastroEventos.Application.Contratos;
 using CadastroEventos.Persistence;
 using CadastroEventos.Persistence.Contextos;
 using CadastroEventos.Persistence.Contrato;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace CadastroEventos.Api
@@ -45,9 +39,18 @@ namespace CadastroEventos.Api
             services.AddDbContext<EventoContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
-            services.AddScoped<IEventoService, EventoService>();
+            // services.AddIdentity<User, IdentityUser>()
+            // .AddEntityFrameworkStores<EventoContext>();
+            
             services.AddScoped<IGeralPersist, GeralPersist>();
+            
+            //Evento
+            services.AddScoped<IEventoService, EventoService>();
             services.AddScoped<IEventoPersist, EventoPersist>();
+
+            //Palestrante
+            services.AddScoped<IPalestranteService, PalestranteService>();
+            services.AddScoped<IPalestrantePersist, PalestrantePersist>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
